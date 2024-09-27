@@ -1,0 +1,67 @@
+:root {
+    /* Color */
+    --primary-color: #FFBEBD;
+
+    /* Size */
+    --height-input-search: 40px;
+
+    /* box-shadow */
+    --box-shadow-color: 0px 1px 2px rgba(0, 0, 0, 0.1), 2px 4px 12px rgba(0, 0, 0, 0.08);
+    --hover-box-shadow-color: 1px 2px 4px rgba(0, 0, 0, 0.2);
+
+    /* cubic */
+    --itr-yy-z: cubic-bezier(0.2, 0, 0, 1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+html {
+    font-size: 62.5%;
+    font-family: Arial, Helvetica, sans-serif;
+    scroll-behavior: smooth;
+}
+
+body {
+    font-size: 1.6rem;
+    color: #333;
+    background-color: #fff;
+    overflow-x: hidden;
+    -webkit-tap-highlight-color: transparent;
+}
+
+input {
+    border: unset;
+    outline: unset;
+}
+
+button {
+    border: unset;
+    outline: unset;
+    cursor: pointer;
+    background-color: #fff;
+}
+
+ul {
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+    color: unset;
+}
+
+img {
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    -webkit-user-select: none;
+    user-select: none;
+    -moz-user-drag: none;
+    -khtml-user-drag: none;
+    -webkit-user-drag: none;
+    user-zoom: none;
+}

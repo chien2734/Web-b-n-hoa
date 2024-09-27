@@ -1,0 +1,11 @@
+Nhóm: 03 - Shop bán các loại hoa.
+
+3122410010 - Nguyễn Thị Phương Anh
+3122410012 - Từ Nhật Anh
+3122410039 - Bùi Đức Chiến
+3120410400 - Đặng Gia Phú
+3122410400 - Nguyễn Đình Thông
+
+Tài khoản Admin:
+- User: admin
+- Password: admin

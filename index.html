@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="./assets/images/favicon.jpg">
+    <link rel="stylesheet" href="./assets/fonts/fontawesome-free-6.4.2-web/css/all.min.css">
+    <link rel="stylesheet" href="./css/base.css">
+    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="./css/productDetail.css">
+
+    <title>Cửa hàng hoa</title>
+</head>
+
+<body>
+    <header class="header">
+        <div class="logo">
+            <a href="/"><img src="./assets/images/Logo.png" alt="logo-shop" /></a>
+        </div>
+        <div class="tasks">
+            <div class="search">
+                <form id="search_form" class="search_form">
+                    <input type="search" placeholder="Tìm kiếm" name="search" autocomplete="off" spellcheck="false" />
+                    <button type="submit">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </form>
+                <div class="search_filter">
+                    <div class="head_filter">Lọc theo:</div>
+                    <div class="typeFlower_filter">
+                        <ul id="typeFlower_filter">
+                            <li id="typeFlower_filter_li" typeFlower='first_li'>
+                                <span>Loại hoa</span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </li>
+                            <li typeFlower='Hoa bó' typeData='hoabo'>Hoa bó</li>
+                            <li typeFlower='Bình hoa' typeData='binhhoa'>Bình hoa</li>
+                            <li typeFlower='Giỏ hoa' typeData='giohoa'>Giỏ hoa</li>
+                        </ul>
+                    </div>
+                    <div class="typeFlower_filter priceFlower_filter">
+                        <ul id="priceFlower_filter">
+                            <li id="priceFlower_filter_li" textPrice='first_li'>
+                                <span>Giá</span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </li>
+                            <li textPrice='Trên 6 triệu đồng' price='>6'>Trên
+                                6 triệu đồng
+                            </li>
+                            <li textPrice='Từ 4 đến 6 triệu đồng' price='4-6'>
+                                Từ 4 đến 6
+                                triệu đồng</li>
+                            <li textPrice='Từ 2 đến 4 triệu đồng' price='2-4'>
+                                Từ 2 đến 4
+                                triệu đồng</li>
+                            <li textPrice='Dưới 2 triệu đồng' price='<2'>Dưới
+                                2 triệu đồng
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="user" class="user">
+            <div class="login">
+                <button onclick="handlerShowModal()" type="button">Đăng nhập</button>
+            </div>
+        </div>
+    </header>
+    <main class="main">
+        <nav class="main-nav">
+            <ul class="main-nav-list">
+                <li class="main-nav-item">
+                    <a href="/">
+                        <i class="fa-solid fa-house"></i>
+                        <span>Trang chủ</span>
+                    </a>
+                </li>
+                <li class="main-nav-item">
+                    <a onclick="showIntroduce()" style="cursor: pointer;">
+                        <i class="fa-solid fa-book"></i>
+                        <span>Giới thiệu</span>
+                    </a>
+                </li>
+                <li class="main-nav-item">
+                    <a style="cursor: pointer;" id="main-nav-ViewndividualProducts">
+                        <i class="fa-solid fa-filter"></i>
+                        <span>Sản phẩm</span>
+                    </a>
+                </li>
+                <li class="main-nav-item">
+                    <a href="#footer">
+                        <i class="fa-solid fa-phone"></i>
+                        <span>Liên hệ</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        <div class="main-wrapper">
+            <div id="main-content" class="main-content"></div>
+        </div>
+    </main>
+    <footer id="footer" class="footer">
+        <div class="footer-wrapper">
+            <div class="footer-content">
+                <div class="footer-info">
+                    <h1 class="footer-header">Flower Shop (Nhóm 03)</h1>
+                    <div>
+                        <p><i class="fa-solid fa-location-dot"></i> Địa chỉ: 273 An Dương Vương, Phường 3, Quận 5, TP.
+                            Hồ
+                            Chí
+                            Minh</p>
+                    </div>
+                    <div>
+                        <i class="fa-solid fa-envelope"></i> Email:
+                        <a class="communication__link" href="mailto:nguyendinhthongdhsg@gmail.com">
+                            nguyendinhthongdhsg@gmail.com
+                        </a>
+                    </div>
+                    <div>
+                        <i class="fa-solid fa-phone"></i> Phone:
+                        <a class="communication__link" href="tel:0123456789">
+                            0123456789
+                        </a>
+                    </div>
+                </div>
+                <div class="footer-support">
+                    <h3 class="footer-header">Hỗ Trợ</h3>
+                    <ul id="footer-support">
+                        <li>> Giới thiệu</li>
+                        <li>> Liên hệ</li>
+                    </ul>
+                </div>
+                <div class="footer-facebook">
+                    <div>
+                        <h3 class="footer-header">Facebook</h3>
+                        <div class="footer-facebook-qr">
+                            <a target="_blank" href="https://www.facebook.com/flower.shop.nhom03/"><img
+                                    src="./assets/images/qrcode.png" alt="Flower Shop" /></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <p class="footer-copyright">© Copyright 2023-2024 FLower Shop Team 03.</p>
+        </div>
+    </footer>
+
+    <div id="cart-btn" class="cart-wrapper">
+        <div class="cart-content" onclick="showListCart()"><i class="fa-solid fa-cart-shopping"></i></div>
+    </div>
+    <div id="cart" class="cart-modal">
+        <div id="cart-list" class="cart-list"></div>
+    </div>
+
+    <div id="scrollToTop" class="scrollToTop" onclick="scrollTopF()">
+        <i class="fa-solid fa-circle-arrow-right"></i>
+    </div>
+
+    <!-- Modal login -->
+    <div id="modal-login" class="modal">
+        <div id="modal-wrapper" class="modal-wrapper">
+            <div id="modal-content" class="modal-content">
+                <h2 class="modal-heading">Cửa hàng hoa</h2>
+                <h3 class="modal-subHead">Đăng nhập</h3>
+                <form class="modal-form">
+                    <input type="text" name="account" placeholder="Tên đăng nhập" autocomplete="off"
+                        spellcheck="false" />
+                    <input type="password" name="password" placeholder="Mật khẩu" autocomplete="off"
+                        spellcheck="false" />
+                    <button type="submit">Đăng nhập</button>
+                </form>
+                <div class="message-redirect">
+                    <p>Bạn chưa có tài khoản?</p>
+                    <p class="message-redirect-link" onclick="handlerShowModalRegis()">Đăng ký</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal register -->
+    <div id="modal-register" class="modal">
+        <div id="modal-wrapper" class="modal-wrapper">
+            <div id="modal-content" class="modal-content">
+                <h2 class="modal-heading">Cửa hàng hoa</h2>
+                <h3 class="modal-subHead">Đăng ký</h3>
+                <form class="modal-form">
+                    <input type="text" name="name" placeholder="Họ và tên" autocomplete="off" spellcheck="false" />
+                    <input type="text" name="account" placeholder="Tên đăng nhập" autocomplete="off"
+                        spellcheck="false" />
+                    <input type="password" name="password" placeholder="Mật khẩu" autocomplete="off"
+                        spellcheck="false" />
+                    <input type="password" name="a-password" placeholder="Nhập lại mật khẩu" autocomplete="off"
+                        spellcheck="false" />
+                    <button type="submit">Đăng ký</button>
+                </form>
+                <div class="message-redirect">
+                    <p>Bạn đã có tài khoản?</p>
+                    <p class="message-redirect-link" onclick="handlerShowModal()">Đăng nhập</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast"></div>
+
+    <script>
+        // user
+        function handlerShowMenu() {
+            document.querySelector('#user-menu>ul').classList.toggle('open')
+        }
+
+        function logout() {
+            localStorage.removeItem('user')
+            location.reload()
+        }
+
+        // check login
+        const user = document.getElementById('user')
+        let userInfo = JSON.parse(localStorage.getItem('user'))
+        if (userInfo) {
+            user.innerHTML = `<nav id="user-menu" class="user-menu" onclick="handlerShowMenu()">
+                            <div class="user-avatar">
+                                <i class="fa-solid fa-bars"></i>
+                                <i class="fa-solid fa-circle-user"></i>
+                            </div>
+                            <ul class="user-list">
+                                <li class="user-item-name">
+                                    ${userInfo.name}
+                                </li>
+                                <li>
+                                    <a href="/">
+                                        Trang chủ
+                                    </a>
+                                </li>
+                                <li>
+                                    <a onclick="showListCart()">
+                                        Giỏ hàng
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#">
+                                        Giới thiệu
+                                    </a>
+                                </li>
+                                ${userInfo.account === 'admin' ? `<li>
+                                        <a href="/admin/admin.html">
+                                            Admin
+                                        </a>
+                                    </li>` : ''}
+                                <li class="user-item-logout" onclick="logout()">Đăng xuất</li>
+                            </ul>
+                        </nav>`
+        }
+
+
+        // Toast
+        function showSuccessToast(text) {
+            toastContent.innerHTML = `<div  class="toast-content"><i style="color: #30d158;" class="fa-solid fa-circle-check"></i><p>${text}</p></div>`
+            setTimeout(() => {
+                toastContent.classList.remove('show')
+            }, 3000)
+            toastContent.classList.add('show')
+        }
+
+        function showErrorToast(text) {
+            toastContent.innerHTML = `<div  class="toast-content"><i style="color: red;" class="fa-solid fa-circle-xmark"></i><p>${text}</p></div>`
+            setTimeout(() => {
+                toastContent.classList.remove('show')
+            }, 3000)
+            toastContent.classList.add('show')
+        }
+
+        const toastContent = document.getElementById('toast')
+
+        // Login Register
+        const modalLogin = document.getElementById('modal-login')
+
+        const modalRegister = document.getElementById('modal-register')
+
+
+        function handlerShowModal() {
+            modalRegister.style.display = 'none'
+            modalLogin.style.display = 'flex'
+        }
+
+        function handlerShowModalRegis() {
+            modalLogin.style.display = 'none'
+            modalRegister.style.display = 'flex'
+        }
+
+        modalLogin.onclick = (e) => handlerCloseModal(e.target)
+        modalRegister.onclick = (e) => handlerCloseModal(e.target)
+
+        function handlerCloseModal(event) {
+            if (event.getAttribute('id') === 'modal-login' ||
+                event.getAttribute('id') === 'modal-register' ||
+                event.getAttribute('id') === 'modal-wrapper' ||
+                event.getAttribute('id') === 'close-modal') {
+                while (event.getAttribute('id') !== 'modal-login' && event.getAttribute('id') !== 'modal-register') {
+                    event = event.parentElement
+                }
+                event.style.display = 'none'
+            }
+        }
+
+        modalRegister.onsubmit = (e) => handlerRegister(e)
+
+        function handlerRegister(e) {
+            e.preventDefault()
+            let checkForm = true;
+            const listInput = document.querySelectorAll('#modal-register input')
+            for (let input of listInput) {
+                if (!checkInputForm(input)) {
+                    checkForm = false
+                }
+            }
+            if (listInput[1].value.trim() == 'admin') {
+                showErrorToast('Tên đăng nhập đã tồn tại')
+                listInput[1].value = ''
+                listInput[1].style.borderColor = 'red'
+                return;
+            }
+            if (checkForm) {
+                const listAccount = JSON.parse(localStorage.getItem('list-account'))
+                if (listAccount) {
+                    let checkAccount = true;
+                    const lengthListAccount = listAccount.length
+                    for (let i = 0; i < lengthListAccount; i++) {
+                        if (listAccount[i].account === listInput[1].value.trim()) {
+                            showErrorToast('Tên đăng nhập đã tồn tại')
+                            listInput[1].value = ''
+                            listInput[1].style.borderColor = 'red'
+                            checkAccount = false
+                            break
+                        }
+                    }
+                    if (checkAccount && checkFullName(listInput[0].value)
+                        && checkUserName(listInput[1].value)
+                        && listInput[2].value === listInput[3].value) {
+                        listAccount.push({
+                            name: listInput[0].value.trim(),
+                            account: listInput[1].value.trim(),
+                            password: listInput[2].value.trim()
+                        })
+                        localStorage.setItem('list-account', JSON.stringify(listAccount))
+                        resetForm(listInput)
+                        showSuccessToast('Đăng ký thành công')
+                    }
+                    else {
+                        if (!checkFullName(listInput[0].value)) {
+                            showErrorToast('Họ và tên không được chứa ký tự đặt biệt, không chứa chữ số')
+                            listInput[0].value = ''
+                            listInput[0].style.borderColor = 'red'
+                        }
+                        else if (!checkUserName(listInput[1].value)) {
+                            showErrorToast('Tên đăng nhập không được chứa khoảng trắng, không bắt đầu bằng chữ số')
+                            listInput[1].value = ''
+                            listInput[1].style.borderColor = 'red'
+                        }
+                        else if (listInput[2].value !== listInput[3].value) {
+                            showErrorToast('Nhập lại mật khẩu không trùng khớp')
+                            listInput[2].value = ''
+                            listInput[3].value = ''
+                            listInput[2].style.borderColor = 'red'
+                            listInput[3].style.borderColor = 'red'
+                        }
+                    }
+                }
+                else {
+                    if (checkFullName(listInput[0].value)
+                        && checkUserName(listInput[1].value)
+                        && listInput[2].value === listInput[3].value) {
+                        localStorage.setItem('list-account', JSON.stringify([{
+                            name: listInput[0].value.trim(),
+                            account: listInput[1].value.trim(),
+                            password: listInput[2].value.trim()
+                        }]))
+                        resetForm(listInput)
+                        showSuccessToast('Đăng ký thành công')
+                    }
+                    else {
+                        if (!checkFullName(listInput[0].value)) {
+                            showErrorToast('Họ và tên không được chứa ký tự đặt biệt, không chứa chữ số')
+                            listInput[0].value = ''
+                            listInput[0].style.borderColor = 'red'
+                        }
+                        else if (!checkUserName(listInput[1].value)) {
+                            showErrorToast('Tên đăng nhập không được chứa khoảng trắng, không bắt đầu bằng chữ số')
+                            listInput[1].value = ''
+                            listInput[1].style.borderColor = 'red'
+                        }
+                        else if (listInput[2].value !== listInput[3].value) {
+                            showErrorToast('Nhập lại mật khẩu không trùng khớp')
+                            listInput[2].value = ''
+                            listInput[3].value = ''
+                            listInput[2].style.borderColor = 'red'
+                            listInput[3].style.borderColor = 'red'
+                        }
+                    }
+                }
+            }
+            else {
+                showErrorToast('Vui lòng nhập chính xác thông tin')
+            }
+        }
+
+        // Bỏ dấu họ và tên
+        function removeAscent(str) {
+            if (str === null || str === undefined) return str
+            str = str.toLowerCase()
+            str = str.replace(/à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ/g, "a")
+            str = str.replace(/è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ/g, "e")
+            str = str.replace(/ì|í|ị|ỉ|ĩ/g, "i")
+            str = str.replace(/ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ/g, "o")
+            str = str.replace(/ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ/g, "u")
+            str = str.replace(/ỳ|ý|ỵ|ỷ|ỹ/g, "y")
+            str = str.replace(/đ/g, "d")
+            str = str.replace(/ /g, "")
+            return str
+        }
+
+        function checkFullName(userFullName) {
+            var re = /^[a-zA-Z!@#\$%\^\&*\)\(+=._-]{2,}$/g // regex here
+            return re.test(removeAscent(userFullName))
+        }
+
+        function checkUserName(userName) {
+            const length = userName.length
+            if (!isNaN(userName[0]))
+                return false
+            for (let i = 0; i < length; i++) {
+                if (userName[i] === ' ') {
+                    return false
+                }
+            }
+            return true
+        }
+
+        modalLogin.onsubmit = (e) => handlerLogin(e)
+
+        function handlerLogin(e) {
+            e.preventDefault()
+            let checkForm = true
+            const listInput = document.querySelectorAll('#modal-login input')
+            for (let input of listInput) {
+                if (!checkInputForm(input)) {
+                    checkForm = false
+                }
+            }
+            if (checkForm) {
+                if (listInput[0].value.trim() == 'admin' && listInput[1].value.trim() == 'admin') {
+                    localStorage.setItem('user', JSON.stringify({
+                        name: listInput[0].value,
+                        account: listInput[0].value,
+                        admin: true
+                    }))
+                    window.location.href = '/admin/admin.html'
+                    return;
+                }
+            }
+            if (checkForm) {
+                let checkPass = false
+                const listAccount = JSON.parse(localStorage.getItem('list-account'))
+                const lengthListAccount = listAccount ? listAccount.length : 0
+                if (listAccount) {
+                    for (let i = 0; i < lengthListAccount; i++) {
+                        if (listAccount[i].account === listInput[0].value && listAccount[i].password === listInput[1].value) {
+                            resetForm(listInput)
+                            checkPass = true
+                            modalLogin.style.display = 'none'
+                            localStorage.setItem('user', JSON.stringify({
+                                name: listAccount[i].name,
+                                account: listAccount[i].account
+                            }))
+                            userInfo = {
+                                name: listAccount[i].name,
+                                account: listAccount[i].account
+                            }
+                            location.reload()
+                            break
+                        }
+                    }
+                } else {
+                    showErrorToast('Tên tài khoản hoặc mật khẩu không chính xác')
+                }
+                if (!checkPass) {
+                    resetForm(listInput)
+                    showErrorToast('Tên tài khoản hoặc mật khẩu không chính xác')
+                }
+            }
+            else {
+                showErrorToast('Vui lòng nhập chính xác thông tin')
+            }
+        }
+
+        function checkInputForm(input) {
+            if (!input.value.trim()) {
+                input.style.borderColor = 'red'
+                return false
+            }
+            else {
+                input.style.borderColor = 'transparent'
+                return true
+            }
+        }
+
+        function resetForm(list) {
+            for (let input of list) {
+                input.value = ''
+                input.style.borderColor = 'transparent'
+            }
+        }
+
+        // main
+
+        function showIntroduce() {
+            const main = document.getElementById('main-content')
+            const html = `
+                <div class="main-introduce">
+                    <h2>GIỚI THIỆU</h2>
+                    <p>Flower Shop - Cuộc sống tươi đẹp</p>
+                    <p>Đó là thông điệp mà chúng tôi muốn truyền tải đến bạn, mỗi ngày của bạn hãy luôn rực rỡ, đầy năng lượng và nhiều yêu thương như những bông hoa biết nói.</p>
+                    <p>Tiệm hoa Flower Shop nằm giữa lòng Sài Gòn nhộn nhịp với những mảng tường xanh mát, nắng đan xen qua giàn dây leo lá rũ, tạo một cảm giác bình yên, nhẹ nhàng và gần gũi . Mời bạn ghé thăm ngôi nhà rất thơ này để cùng ngắm nhìn nhiều loại hoa tươi trong nước đến các loại hoa cao cấp nhập khẩu từ Ecuador, Hà Lan, Nam Phi, Nhật Bản… Đội ngũ Team 03 chúng tôi - các bạn trẻ đầy sáng tạo, đam mê và nhiệt huyết với mong muốn tạo được sự gắn kết cảm xúc và lan toả yêu thương qua những bông hoa tươi thắm. Mỗi một sản phẩm hoa hoàn thiện được trao đến tay khách hàng là tất cả sự tận tâm và trân trọng của chúng tôi .</p>
+                </div>
+            `
+            main.innerHTML = html
+        }
+
+        const cartBtn = document.getElementById('cart-btn')
+        const cart = document.getElementById('cart')
+        const cartList = document.getElementById('cart-list')
+
+
+        function showListCartAdd() {
+            let html =
+                `<div class="cart-list-content">
+                        <ul class="cart-list-nav">
+                            <li>
+                                Sản phẩm
+                            </li>    
+                            <li>
+                                Đang xử lý
+                            </li>
+                            <li>
+                                Đã xong
+                            </li>
+                        </ul>
+                        <h2 class="cart-list-header">Giỏ hàng</h2>
+                        <ul class="cart-list-product">    
+                    `
+            const listCart = JSON.parse(localStorage.getItem('listCart-' + userInfo.account))
+            let item = ''
+            if (listCart && listCart[0]) {
+                const length = listCart.length
+                for (let i = 0; i < length; i++) {
+                    item += `
+                        <li>
+                            <img src="${listCart[i].image}" alt="hinh"/>
+                            <h4>
+                                ${listCart[i].name}
+                            </h4>
+                            <p>
+                                ${formatPrice(listCart[i].price, 'đ')}    
+                            </p>
+                            <button>+</button>
+                            <span>${listCart[i].length}</span>
+                            <button>-</button>
+                            <input placeholder="1" type="checkbox" index="${i}" />
+                        </li>
+                    `
+                }
+            }
+            else {
+                item = `<li style="justify-content: center;">Chưa có sản phẩm nào trong giỏ hàng</li>`
+            }
+            html = html + item + `</ul>
+                <div class="cart-list-btnBuy">
+                    <button class="cart-list-btnBuy-delete">Xóa</button>
+                    <button>Đặt hàng</button>
+                </div>
+            </div>`
+            cartList.innerHTML = html
+
+            const listNav = document.querySelectorAll('.cart-list-nav>li')
+            listNav[0].onclick = (e) => showListCartAdd()
+            listNav[1].onclick = (e) => showListCartIng()
+            listNav[2].onclick = (e) => showListCartEd()
+
+            const btnAdd = document.querySelectorAll('.cart-list-product>li>button')
+            const quantity = document.querySelectorAll('.cart-list-product>li>span')
+            const lengthBtn = btnAdd.length
+            for (let i = 0; i < lengthBtn; i++) {
+                btnAdd[i].onclick = (e) => handlerQuantityProduct(e.target.textContent, quantity[Math.floor(i / 2)])
+            }
+            const btnBuy = document.querySelectorAll('.cart-list-btnBuy>button')
+            btnBuy[0].onclick = (e) => {
+                const checkBoxs = document.querySelectorAll('.cart-list-product>li>input:checked')
+                const length = checkBoxs.length
+                for (let i = 0; i < length; i++) {
+                    if (i == 0) {
+                        listCart.splice(parseInt(checkBoxs[i].getAttribute('index')), 1)
+                    }
+                    else {
+                        listCart.splice(parseInt(checkBoxs[i].getAttribute('index')) - i, 1)
+                    }
+                }
+                localStorage.setItem('listCart-' + userInfo.account, JSON.stringify(listCart))
+                showListCartAdd()
+            }
+            btnBuy[1].onclick = (e) => {
+                const checkBoxs = document.querySelectorAll('.cart-list-product>li>input:checked')
+                let listCartIng = JSON.parse(localStorage.getItem('listCarting-' + userInfo.account))
+                const d = new Date()
+                if (listCartIng && listCartIng[0]) {
+                    const cartIng = []
+                    let totalPrice = 0
+                    let totalLength = 0
+                    for (let checkBox of checkBoxs) {
+                        listCart[parseInt(checkBox.getAttribute('index'))].length = parseInt(quantity[parseInt(checkBox.getAttribute('index'))].textContent)
+                        cartIng.push(listCart[parseInt(checkBox.getAttribute('index'))])
+                        totalPrice += listCart[parseInt(checkBox.getAttribute('index'))].price * listCart[parseInt(checkBox.getAttribute('index'))].length
+                        totalLength += listCart[parseInt(checkBox.getAttribute('index'))].length
+                    }
+                    listCartIng.push({
+                        id: `${d.getDate()}${d.getHours()}${d.getMinutes()}${d.getSeconds()}${Math.floor(Math.random() * 10000)}`,
+                        listPr: cartIng,
+                        date: `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()} (${d.getHours()}:${d.getMinutes()}:${d.getSeconds()})`,
+                        totalPrice,
+                        totalLength
+                    })
+                }
+                else {
+                    listCartIng = []
+                    const cartIng = []
+                    let totalPrice = 0
+                    let totalLength = 0
+                    for (let checkBox of checkBoxs) {
+                        listCart[parseInt(checkBox.getAttribute('index'))].length = parseInt(quantity[parseInt(checkBox.getAttribute('index'))].textContent)
+                        cartIng.push(listCart[parseInt(checkBox.getAttribute('index'))])
+                        totalPrice += listCart[parseInt(checkBox.getAttribute('index'))].price * listCart[parseInt(checkBox.getAttribute('index'))].length
+                        totalLength += listCart[parseInt(checkBox.getAttribute('index'))].length
+                    }
+                    listCartIng.push({
+                        id: `${d.getDate()}${d.getHours()}${d.getMinutes()}${d.getSeconds()}${Math.floor(Math.random() * 10000)}`,
+                        listPr: cartIng,
+                        date: `${d.getDate()}/${d.getMonth() + 1}/${d.getFullYear()} (${d.getHours()}:${d.getMinutes()}:${d.getSeconds()})`,
+                        totalPrice,
+                        totalLength
+                    })
+                }
+
+                if (listCartIng && listCartIng[0].listPr[0]) {
+                    localStorage.setItem('listCarting-' + userInfo.account, JSON.stringify(listCartIng))
+                    const listCarted = JSON.parse(localStorage.getItem('listCarted-' + userInfo.account))
+                    if (!listCarted) {
+                        localStorage.setItem('listCarted-' + userInfo.account, JSON.stringify([]))
+                    }
+                }
+                btnBuy[0].click()
+            }
+        }
+
+        function showListCartIng() {
+            let html =
+                `<div class="cart-list-content">
+                    <div class="modal-cart-list-ing-ed"></div>
+                        <ul class="cart-list-nav">
+                            <li>
+                                Sản phẩm
+                            </li>    
+                            <li>
+                                Đang xử lý
+                            </li>
+                            <li>
+                                Đã xong
+                            </li>
+                        </ul>
+                        <h2 class="cart-list-header">Đang xử lý</h2>
+                        <ul class="cart-list-product">`
+            const listCart = JSON.parse(localStorage.getItem('listCarting-' + userInfo.account))
+            let item = ''
+            if (listCart && listCart[0]) {
+                const length = listCart.length
+                for (let i = 0; i < length; i++) {
+                    item += `
+                        <li>
+                            <p style="color: #333;">Mã đơn: ${listCart[i].id}</p>
+                            <p style="color: #333;">Ngày đặt: ${listCart[i].date}</p>
+                            <p style="color: #333;">Tổng tiền: ${formatPrice(listCart[i].totalPrice, 'đ')}</p>
+                            <p style="color: #333;">Số lượng sản phẩm: ${listCart[i].totalLength}</p>
+                            <p style="color: blue; text-decoration: underline;flex: 0.3; cursor: pointer;" index="${i}">Xem thêm</p>
+                        </li>
+                `
+                }
+            }
+            else {
+                item = `<li li style = "justify-content: center;" > Chưa có sản phẩm nào trong danh mục đang xử lý</li> `
+            }
+            html = html + item + `</ul ></div> `
+            cartList.innerHTML = html
+            const xemThems = document.querySelectorAll('.cart-list-product>li>p:last-child')
+            for (let xemThem of xemThems) {
+                xemThem.onclick = (e) => {
+                    const event = e.target
+                    const i = parseInt(event.getAttribute('index'))
+                    let html = `
+                    <div>
+                        <h3>Chi tiết</h3>
+                        <div>
+                            <p style="color: #333;">Mã đơn: ${listCart[i].id}</p>
+                            <p style="color: #333;">Ngày đặt: ${listCart[i].date}</p>
+                            <p style="color: #333;">Tổng tiền: ${formatPrice(listCart[i].totalPrice, 'đ')}</p>
+                            <p style="color: #333;">Số lượng sản phẩm: ${listCart[i].totalLength}</p>
+                        </div>
+                        <ul>
+                    `
+                    for (let index = 0; index < listCart[i].listPr.length; index++) {
+                        html += `
+                        <li>
+                            <img src="${listCart[i].listPr[index].image}" alt="hinh"/>
+                            <h4>
+                                ${listCart[i].listPr[index].name}
+                            </h4>
+                            <p>
+                                ${formatPrice(listCart[i].listPr[index].price, 'đ')}    
+                            </p>
+                            <span>${listCart[i].listPr[index].length}</span>
+                        </li>
+                    `
+                    }
+
+                    html += `</ul></div>`
+                    const modal = document.querySelector('.modal-cart-list-ing-ed')
+                    modal.innerHTML = html
+                    modal.style.display = 'flex'
+                    modal.onclick = (e) => {
+                        let event = e.target
+                        while (event.classList[0] != 'modal-cart-list-ing-ed')
+                            event = event.parentElement
+                        if (event) {
+                            event.style.display = 'none'
+                        }
+                    }
+                }
+            }
+            const listNav = document.querySelectorAll('.cart-list-nav>li')
+            listNav[0].onclick = (e) => showListCartAdd()
+            listNav[1].onclick = (e) => showListCartIng()
+            listNav[2].onclick = (e) => showListCartEd()
+        }
+
+        function showListCartEd() {
+            let html =
+                `<div class="cart-list-content">
+                    <div class="modal-cart-list-ing-ed"></div>
+                        <ul class="cart-list-nav">
+                            <li>
+                                Sản phẩm
+                            </li>    
+                            <li>
+                                Đang xử lý
+                            </li>
+                            <li>
+                                Đã xong
+                            </li>
+                        </ul>
+                        <h2 class="cart-list-header">Đã xong</h2>
+                        <ul class="cart-list-product">`
+            const listCart = JSON.parse(localStorage.getItem('listCarted-' + userInfo.account))
+            let item = ''
+            if (listCart && listCart[0]) {
+                const length = listCart.length
+                for (let i = 0; i < length; i++) {
+                    item += `
+                        <li>
+                            <p style="color: #333;">Mã đơn: ${listCart[i].id}</p>
+                            <p style="color: #333;">Ngày đặt: ${listCart[i].date}</p>
+                            <p style="color: #333;">Tổng tiền: ${formatPrice(listCart[i].totalPrice, 'đ')}</p>
+                            <p style="color: #333;">Số lượng sản phẩm: ${listCart[i].totalLength}</p>
+                            <p style="color: blue; text-decoration: underline;flex: 0.3; cursor: pointer;" index="${i}">Xem thêm</p>
+                        </li>
+                `
+                }
+            }
+            else {
+                item = `<li li style = "justify-content: center;" > Chưa có sản phẩm nào trong danh mục đã xong</li> `
+            }
+            html = html + item + `</ul ></div> `
+            cartList.innerHTML = html
+            const xemThems = document.querySelectorAll('.cart-list-product>li>p:last-child')
+            for (let xemThem of xemThems) {
+                xemThem.onclick = (e) => {
+                    const event = e.target
+                    const i = parseInt(event.getAttribute('index'))
+                    let html = `
+                    <div>
+                        <h3>Chi tiết</h3>
+                        <div>
+                            <p style="color: #333;">Mã đơn: ${listCart[i].id}</p>
+                            <p style="color: #333;">Ngày đặt: ${listCart[i].date}</p>
+                            <p style="color: #333;">Tổng tiền: ${formatPrice(listCart[i].totalPrice, 'đ')}</p>
+                            <p style="color: #333;">Số lượng sản phẩm: ${listCart[i].totalLength}</p>
+                        </div>
+                        <ul>
+                    `
+                    for (let index = 0; index < listCart[i].listPr.length; index++) {
+                        html += `
+                        <li>
+                            <img src="${listCart[i].listPr[index].image}" alt="hinh"/>
+                            <h4>
+                                ${listCart[i].listPr[index].name}
+                            </h4>
+                            <p>
+                                ${formatPrice(listCart[i].listPr[index].price, 'đ')}    
+                            </p>
+                            <span>${listCart[i].listPr[index].length}</span>
+                        </li>
+                    `
+                    }
+
+                    html += `</ul></div>`
+                    const modal = document.querySelector('.modal-cart-list-ing-ed')
+                    modal.innerHTML = html
+                    modal.style.display = 'flex'
+                    modal.onclick = (e) => {
+                        let event = e.target
+                        while (event.classList[0] != 'modal-cart-list-ing-ed')
+                            event = event.parentElement
+                        if (event) {
+                            event.style.display = 'none'
+                        }
+                    }
+                }
+            }
+            const listNav = document.querySelectorAll('.cart-list-nav>li')
+            listNav[0].onclick = (e) => showListCartAdd()
+            listNav[1].onclick = (e) => showListCartIng()
+            listNav[2].onclick = (e) => showListCartEd()
+        }
+
+        function showListCart() {
+            if (userInfo) {
+                showListCartAdd()
+                cart.style.display = 'flex'
+            }
+            else {
+                handlerShowModal()
+            }
+        }
+
+        cart.onclick = (e) => handlerCloseCart(e.target)
+
+        function handlerCloseCart(event) {
+            if (event.getAttribute('id') === 'cart') {
+                event.style.display = 'none'
+            }
+        }
+
+        function handlerQuantityProduct(option, quantity) {
+            if (option === '+') {
+                quantity.innerText = parseInt(quantity.textContent) + 1
+            }
+            else if (parseInt(quantity.textContent) > 1)
+                quantity.innerText = parseInt(quantity.textContent) - 1
+        }
+
+        function formatPrice(n, currency) {
+            const nFormat = new Intl.NumberFormat();
+            return nFormat.format(n) + ' ' + currency;
+        }
+
+        function scrollTopF() {
+            window.scrollTo(top)
+        }
+
+
+
+    </script>
+    <script type="module" src="./js/render.js"></script>
+    <script type="module" src="./js/filter.js"></script>
+    <script type="module" src="./js/search.js"></script>
+    <script type="module" src="./js/ViewndividualProducts.js"></script>
+</body>
+
+</html>

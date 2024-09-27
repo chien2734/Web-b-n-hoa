@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta content="0; url=http://127.0.0.1:5500/hoabo.html" />
+    <title>Document</title>
+    <link rel="icon" type="image/x-icon" href="../assets/images/favicon.jpg">
+    <link rel="stylesheet" href="../assets/fonts/fontawesome-free-6.4.2-web/css/all.min.css">
+    <link rel="stylesheet" href="../css/base.css">
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+
+<body>
+    <header class="admin-header">
+        <div class="admin-header-content">
+            <h1>Admin Flower Shop</h1>
+        </div>
+    </header>
+    <main class="admin-main">
+        <nav class="admin-nav-1">
+            <div onclick="gotoHome()">
+                Trang Flower Shop
+            </div>
+            <div onclick="showAdd()">
+                Thêm
+            </div>
+            <div onclick="showEdit()">
+                Sửa
+            </div>
+            <div onclick="showDelete()">
+                Xóa
+            </div>
+        </nav>
+        <nav class="admin-nav-2">
+            <div onclick="showUserList()">
+                Quản lý tài khoản
+            </div>
+            <div onclick="showListIng()">
+                Đơn hàng chưa xử lý
+            </div>
+            <div onclick="showListEd()">
+                Đơn hàng đã xử lý
+            </div>
+            <div onclick="showStatistic()">
+                Thống kê
+            </div>
+        </nav>
+        <div class="admin-content-1">
+        </div>
+
+    </main>
+    <footer class="admin-footer"></footer>
+
+    <!-- toast -->
+    <div id="admin-toast" class="admin-toast"></div>
+
+    <!-- modal -->
+    <div class="admin-modal">
+        <div class="admin-modal-content"></div>
+    </div>
+
+    <!-- modal edit -->
+    <div class="admin-modal-edit">
+        <div class="admin-modal-edit-content"></div>
+    </div>
+
+    <script>
+
+        const adminContent1 = document.querySelector('.admin-content-1')
+
+        function gotoHome() {
+            window.location.href = '/'
+        }
+
+        function showAdd() {
+            let html = `
+            <h2>Thêm</h2>
+            <form id="admin-form-add-1" class="admin-form-add-1">
+                <select name="dir" title="Danh mục">
+                    <option value="hoabo">
+                        Hoa bó
+                    </option>
+                    <option value="binhoa">
+                        Bình hoa
+                    </option>
+                    <option value="giohoa">
+                        Giỏ hoa
+                    </option>
+                </select>
+                <input placeholder="Tên sản phẩm" type="text" name="name" spellcheck="false" />
+                <input placeholder="Giá" type="number" name="price" step="100000" min="100000" spellcheck="false" />
+                <input placeholder="Link hình ảnh" type="text" name="image" spellcheck="false" />
+                <button type="submit">Thêm</button>
+            </form>
+            `
+            adminContent1.innerHTML = html
+
+            const form = document.getElementById('admin-form-add-1')
+            form.onsubmit = (e) => {
+                e.preventDefault()
+                event = e.target
+                const data = localStorage.getItem('data')
+                if (event[0].value && event[1].value.trim() && event[2].value.trim() && event[3].value.trim()) {
+                    const data = JSON.parse(localStorage.getItem('data'))
+                    const product = {
+                        id: event[0].value + '_' + (data[event[0].value].length + 1),
+                        name: event[1].value.trim(),
+                        price: parseInt(event[2].value.trim()),
+                        image: event[3].value.trim()
+                    }
+
+                    data[event[0].value].push(product)
+                    localStorage.setItem('data', JSON.stringify(data))
+                    event[1].value = ''
+                    event[2].value = ''
+                    event[3].value = ''
+                    showSuccessToast(`Đã thêm ${product.name}`)
+
+                }
+                else {
+                    showErrorToast('Vui lòng nhập chính xác thông tin')
+                }
+            }
+        }
+
+        showAdd()
+
+        function showEdit() {
+            const data = JSON.parse(localStorage.getItem('data'))
+            let html = `
+            <h2>Sửa sản phẩm</h2>
+            <div class="admin-edit-1">
+            `
+            if (data.hoabo) {
+                html += `<div><h3>Hoa bó: ${data.hoabo.length} sản phẩm</h3>
+                        <ul>
+                        `
+                for (let i = 0; i < data.hoabo.length; i++) {
+                    html += `<li>
+                        <img src="${data.hoabo[i].image}" alt="hinh"/>
+                        <h4>${data.hoabo[i].name}</h4>
+                        <p>${formatPrice(data.hoabo[i].price, 'đ')}</p>
+                        <button title="Sửa" dir="hoabo" index-data="${i}"><i class="fa-solid fa-pen-to-square" dir="hoabo" index-data="${i}"></i></button>
+                    </li>`
+                }
+                html += '</ul></div>'
+            }
+
+
+            if (data.binhhoa) {
+                html += `<div><h3>Bình hoa: ${data.binhhoa.length} sản phẩm</h3>
+                        <ul>`
+                for (let i = 0; i < data.binhhoa.length; i++) {
+                    html += `<li>
+                        <img src="${data.binhhoa[i].image}" alt="hinh"/>
+                        <h4>${data.binhhoa[i].name}</h4>
+                        <p>${formatPrice(data.binhhoa[i].price, 'đ')}</p>
+                        <button title="Sửa" dir="binhhoa" index-data="${i}" ><i class="fa-solid fa-pen-to-square" dir="binhhoa" index-data="${i}"></i></button>
+                    </li>`
+                }
+                html += '</ul></div>'
+            }
+
+            if (data.giohoa) {
+                html += `<div><h3>Giỏ hoa: ${data.giohoa.length} sản phẩm</h3>
+                        <ul>
+                        `
+                for (let i = 0; i < data.giohoa.length; i++) {
+                    html += `<li>
+                        <img src="${data.giohoa[i].image}" alt="hinh"/>
+                        <h4>${data.giohoa[i].name}</h4>
+                        <p>${formatPrice(data.giohoa[i].price, 'đ')}</p>
+                        <button title="Sửa" dir="giohoa" index-data="${i}"><i class="fa-solid fa-pen-to-square" dir="giohoa" index-data="${i}"></i></button>
+                    </li>`
+                }
+
+                html += '</ul></div>'
+            }
+
+            html += `</div>`
+            adminContent1.innerHTML = html
+
+            const listBtnEdit = document.querySelectorAll('.admin-edit-1>div>ul>li>button')
+            for (let i = 0; i < listBtnEdit.length; i++) {
+                listBtnEdit[i].onclick = (e) => {
+                    event = e.target
+                    const product = data[event.getAttribute('dir')]
+                    const modal = document.querySelector('.admin-modal-edit')
+                    const modalContent = document.querySelector('.admin-modal-edit-content')
+                    modalContent.innerHTML = `<div>
+                            <form id="admin-form-edit-1" class="admin-form-edit-1" dir="${event.getAttribute('dir')}" index="${parseInt(event.getAttribute('index-data'))}">
+                                <input placeholder="Tên sản phẩm" type="text" name="name" spellcheck="false" value="${product[parseInt(event.getAttribute('index-data'))].name}" />
+                                <input placeholder="Giá" type="number" name="price" step="100000" min="100000" spellcheck="false" value="${product[parseInt(event.getAttribute('index-data'))].price}" />
+                                <input placeholder="Link hình ảnh" type="text" name="image" spellcheck="false" value="${product[parseInt(event.getAttribute('index-data'))].image}" />
+                                <button type="submit">Sửa</button>
+                                <button type="button">Thoát</button>
+                            </form>
+                            <img id="admin-img-edit-1" src="${product[parseInt(event.getAttribute('index-data'))].image}" alt="Đường link ảnh không chính xác!"/>
+                        </div>
+                    `
+                    modal.style.display = 'flex'
+                    const btn = document.querySelector('#admin-form-edit-1>button[type="button"]')
+                    btn.onclick = (e) => {
+                        modal.style.display = 'none'
+                    }
+
+                    const form = document.getElementById('admin-form-edit-1')
+                    form.onsubmit = (e) => {
+                        e.preventDefault()
+                        const event = e.target
+                        const data = localStorage.getItem('data')
+                        if (event[0].value.trim() && event[1].value.trim()) {
+                            const data = JSON.parse(localStorage.getItem('data'))
+                            data[event.getAttribute('dir')][parseInt(event.getAttribute('index'))] = {
+                                id: data[event.getAttribute('dir')][parseInt(event.getAttribute('index'))].id,
+                                name: event[0].value.trim(),
+                                price: parseInt(event[1].value.trim()),
+                                image: event[2].value.trim()
+                            }
+                            localStorage.setItem('data', JSON.stringify(data))
+                            modal.style.display = 'none'
+                            showEdit()
+                        }
+                        else {
+                            showErrorToast('Vui lòng nhập chính xác thông tin')
+                        }
+                    }
+                }
+            }
+        }
+
+        function showDelete() {
+            const data = JSON.parse(localStorage.getItem('data'))
+            let html = `
+            <h2>Xóa sản phẩm</h2>
+            <div class="admin-delete-1">
+            `
+            if (data.hoabo) {
+                html += `<div><h3>Hoa bó: ${data.hoabo.length} sản phẩm</h3>
+                        <ul>
+                        `
+                for (let i = 0; i < data.hoabo.length; i++) {
+                    html += `<li>
+                        <img src="${data.hoabo[i].image}" alt="hinh"/>
+                        <h4>${data.hoabo[i].name}</h4>
+                        <p>${formatPrice(data.hoabo[i].price, 'đ')}</p>
+                        <button title="Xóa" dir="hoabo" index-data="${i}"><i class="fa-solid fa-trash" dir="hoabo" index-data="${i}"></i></button>
+                    </li>`
+                }
+                html += '</ul></div>'
+            }
+
+
+            if (data.binhhoa) {
+                html += `<div><h3>Bình hoa: ${data.binhhoa.length} sản phẩm</h3>
+                        <ul>`
+                for (let i = 0; i < data.binhhoa.length; i++) {
+                    html += `<li>
+                        <img src="${data.binhhoa[i].image}" alt="hinh"/>
+                        <h4>${data.binhhoa[i].name}</h4>
+                        <p>${formatPrice(data.binhhoa[i].price, 'đ')}</p>
+                        <button title="Xóa" dir="binhhoa" index-data="${i}" ><i class="fa-solid fa-trash" dir="binhhoa" index-data="${i}"></i></button>
+                    </li>`
+                }
+                html += '</ul></div>'
+            }
+
+            if (data.giohoa) {
+                html += `<div><h3>Giỏ hoa: ${data.giohoa.length} sản phẩm</h3>
+                        <ul>
+                        `
+                for (let i = 0; i < data.giohoa.length; i++) {
+                    html += `<li>
+                        <img src="${data.giohoa[i].image}" alt="hinh"/>
+                        <h4>${data.giohoa[i].name}</h4>
+                        <p>${formatPrice(data.giohoa[i].price, 'đ')}</p>
+                        <button title="Xóa" dir="giohoa" index-data="${i}"><i class="fa-solid fa-trash" dir="giohoa" index-data="${i}"></i></button>
+                    </li>`
+                }
+
+                html += '</ul></div>'
+            }
+
+            html += `</div>`
+
+            adminContent1.innerHTML = html
+            const listBtnDel = document.querySelectorAll('.admin-delete-1>div>ul>li>button')
+            for (let i = 0; i < listBtnDel.length; i++) {
+                listBtnDel[i].onclick = (e) => {
+                    event = e.target
+                    showModal(() => {
+                        data[event.getAttribute('dir')].splice(parseInt(event.getAttribute('index-data')), 1)
+                        localStorage.setItem('data', JSON.stringify(data))
+                        showDelete()
+                    }, `Bạn có chắc chắn xóa ${data[event.getAttribute('dir')][parseInt(event.getAttribute('index-data'))].name}`)
+                }
+            }
+        }
+
+        function showUserList() {
+            const user = JSON.parse(localStorage.getItem('list-account'))
+            const content = document.querySelector('.admin-content-1')
+            let html = `
+                <div class="admin-content-1-list-user">
+                    <h2>Quản lý tài khoản</h2>
+                    <ul>
+            `
+            for (let i = 0; i < user.length; i++) {
+                html += `
+                    <li>
+                        <p>Tên: ${user[i].name}</p>
+                        <p>Tài khoản: ${user[i].account}</p>
+                        <p>Mật khẩu: ${user[i].password}</p>
+                        <button title="Xóa" index-data="${i}"><i class="fa-solid fa-trash" dir="giohoa" index-data="${i}"></i></button>
+                    </li>    
+                `
+            }
+            html += `</ul></div>`
+            content.innerHTML = html
+            const btnDel = document.querySelectorAll('.admin-content-1-list-user>ul>li>button')
+            for (let i = 0; i < btnDel.length; i++) {
+                btnDel[i].onclick = (e) => {
+                    event = e.target
+                    user.splice(parseInt(event.getAttribute('index-data')), 1)
+                    localStorage.setItem('list-account', JSON.stringify(user))
+                    showUserList()
+                }
+            }
+        }
+
+        function showListIng() {
+            const user = JSON.parse(localStorage.getItem('list-account'))
+            const listIng = []
+            for (let x of user) {
+                const list = JSON.parse(localStorage.getItem('listCarting-' + x.account))
+                if (list && list[0]) {
+                    for (let i = 0; i < list.length; i++) {
+                        listIng.push({
+                            index: i,
+                            name: x.name,
+                            account: x.account,
+                            ...list[i]
+                        })
+                    }
+                }
+            }
+            const content = document.querySelector('.admin-content-1')
+            let html = `
+                <div class="admin-content-1-listCart-ing">
+                    <div class="admin-content-1-listCart-ing-modal"></div>
+                    <h2>Đơn hàng chưa xử lý</h2>
+                    <ul>
+            `
+            for (let i = 0; i < listIng.length; i++) {
+                html += `
+                    <li>
+                        <p>Mã đơn: ${listIng[i].id}</p>
+                        <p>Khách hàng: ${listIng[i].name} (${listIng[i].account})</p>
+                        <p>Ngày đặt: ${listIng[i].date}</p>
+                        <p>Tổng tiền: ${formatPrice(listIng[i].totalPrice, 'đ')}</p>
+                        <p>Tổng Sản phẩm: ${listIng[i].totalLength}</p>
+                    </li>
+                `
+            }
+            html += `</ul></div>`
+            content.innerHTML = html
+
+            const detail = document.querySelectorAll('.admin-content-1-listCart-ing>ul>li')
+            for (let i = 0; i < detail.length; i++) {
+                detail[i].onclick = (e) => {
+                    const event = e.target
+                    const modal = document.querySelector('.admin-content-1-listCart-ing-modal')
+                    let html = `
+                        <div>
+                            <h3>Chi tiết</h3>
+                            <div>
+                                <p>Mã đơn: ${listIng[i].id}</p>
+                                <p>Khách hàng: ${listIng[i].name} (${listIng[i].account})</p>
+                                <p>Ngày đặt: ${listIng[i].date}</p>
+                                <p>Tổng tiền: ${formatPrice(listIng[i].totalPrice, 'đ')}</p>
+                                <p>Tổng Sản phẩm: ${listIng[i].totalLength}</p>
+                            </div>
+                        <ul>
+                    `
+                    for (let j = 0; j < listIng[i].listPr.length; j++) {
+                        html += `
+                        <li>
+                            <img src="${listIng[i].listPr[j].image}" alt="hinh"/>
+                            <h4>
+                                ${listIng[i].listPr[j].name}
+                            </h4>
+                            <p>
+                                ${formatPrice(listIng[i].listPr[j].price, 'đ')}    
+                            </p>
+                            <span>${listIng[i].listPr[j].length}</span>
+                        </li>
+                        `
+                    }
+                    html += `</ul>
+                        <span>
+                            <button style="background-color: #ff7171;">Xóa bỏ</button>
+                            <button style="background-color: #7eff7e;">Xử lý</button>
+                        </span>
+                    </div>`
+                    modal.innerHTML = html
+                    modal.style.display = 'flex'
+                    modal.onclick = (e) => {
+                        let event = e.target
+                        while (event.classList[0] != 'admin-content-1-listCart-ing-modal')
+                            event = event.parentElement
+                        if (event) {
+                            event.style.display = 'none'
+                        }
+                    }
+                    const btn = document.querySelectorAll('.admin-content-1-listCart-ing-modal>div>span>button')
+                    const account = listIng[i].account
+                    const listCarting = JSON.parse(localStorage.getItem('listCarting-' + account))
+                    btn[0].onclick = (e) => {
+                        listCarting.splice(listIng.index, 1)
+                        localStorage.setItem('listCarting-' + account, JSON.stringify(listCarting))
+                        modal.style = 'none'
+                        showListIng()
+                    }
+                    btn[1].onclick = (e) => {
+                        const listEd = localStorage.getItem('listCarted-' + account) ?
+                            JSON.parse(localStorage.getItem('listCarted-' + account)) : []
+                        listEd.push(listCarting[listIng[i].index])
+                        listCarting.splice(listIng.index, 1)
+                        localStorage.setItem('listCarting-' + account, JSON.stringify(listCarting))
+                        localStorage.setItem('listCarted-' + account, JSON.stringify(listEd))
+                        modal.style = 'none'
+                        showListIng()
+                    }
+                }
+            }
+        }
+        showListIng()
+
+        function showListEd() {
+            const user = JSON.parse(localStorage.getItem('list-account'))
+            const listEd = []
+            for (let x of user) {
+                const list = JSON.parse(localStorage.getItem('listCarted-' + x.account))
+                if (list && list[0]) {
+                    for (let i = 0; i < list.length; i++) {
+                        listEd.push({
+                            index: i,
+                            name: x.name,
+                            account: x.account,
+                            ...list[i]
+                        })
+                    }
+                }
+            }
+            const content = document.querySelector('.admin-content-1')
+            let html = `
+                <div class="admin-content-1-listCart-ing">
+                    <div class="admin-content-1-listCart-ing-modal"></div>
+                    <h2>Đơn hàng đã xử lý</h2>
+                    <ul>
+            `
+            for (let i = 0; i < listEd.length; i++) {
+                html += `
+                    <li>
+                        <p>Mã đơn: ${listEd[i].id}</p>
+                        <p>Khách hàng: ${listEd[i].name} (${listEd[i].account})</p>
+                        <p>Ngày đặt: ${listEd[i].date}</p>
+                        <p>Tổng tiền: ${formatPrice(listEd[i].totalPrice, 'đ')}</p>
+                        <p>Tổng Sản phẩm: ${listEd[i].totalLength}</p>
+                    </li>
+                `
+            }
+            html += `</ul></div>`
+            content.innerHTML = html
+
+            const detail = document.querySelectorAll('.admin-content-1-listCart-ing>ul>li')
+            for (let i = 0; i < detail.length; i++) {
+                detail[i].onclick = (e) => {
+                    const event = e.target
+                    const modal = document.querySelector('.admin-content-1-listCart-ing-modal')
+                    let html = `
+                        <div>
+                            <h3>Chi tiết</h3>
+                            <div>
+                                <p>Mã đơn: ${listEd[i].id}</p>
+                                <p>Khách hàng: ${listEd[i].name} (${listEd[i].account})</p>
+                                <p>Ngày đặt: ${listEd[i].date}</p>
+                                <p>Tổng tiền: ${formatPrice(listEd[i].totalPrice, 'đ')}</p>
+                                <p>Tổng Sản phẩm: ${listEd[i].totalLength}</p>
+                            </div>
+                        <ul>
+                    `
+                    for (let j = 0; j < listEd[i].listPr.length; j++) {
+                        html += `
+                        <li>
+                            <img src="${listEd[i].listPr[j].image}" alt="hinh"/>
+                            <h4>
+                                ${listEd[i].listPr[j].name}
+                            </h4>
+                            <p>
+                                ${formatPrice(listEd[i].listPr[j].price, 'đ')}    
+                            </p>
+                            <span>${listEd[i].listPr[j].length}</span>
+                        </li>
+                        `
+                    }
+                    html += `</ul></div>`
+                    modal.innerHTML = html
+                    modal.style.display = 'flex'
+                    modal.onclick = (e) => {
+                        const event = e.target
+                        if (event && event.classList[0] === 'admin-content-1-listCart-ing-modal') {
+                            event.style.display = 'none'
+                        }
+                    }
+                }
+            }
+        }
+
+        function showStatistic() {
+            const content = document.querySelector('.admin-content-1')
+            let html = `
+                <div class="admin-content-1-Statistic">
+                    <h2>Thống kê</h2>
+                    <form>
+                        <input type="month" name="name" placeholder="Tháng" autocomplete="off" spellcheck="false"/>
+                        <button type="submit">Xem</button>   
+                    </form>
+                    <div></div>
+            `
+            html += `</div>`
+            content.innerHTML = html
+            const listPr = []
+            const userAccount = JSON.parse(localStorage.getItem('list-account'))
+            for (let i = 0; i < userAccount.length; i++) {
+
+                const pr = JSON.parse(localStorage.getItem('listCarted-' + userAccount[i].account))
+                if (pr && pr[0]) {
+                    listPr.push(...pr)
+                }
+            }
+            const form = document.querySelector('.admin-content-1-Statistic>form')
+            form.onsubmit = (e) => {
+                e.preventDefault()
+                const event = e.target
+                const year = event[0].value[0] + event[0].value[1] + event[0].value[2] + event[0].value[3]
+                const month = event[0].value[5] + event[0].value[6]
+                const date = month + '/' + year
+                if (month && year) {
+                    const listContent = []
+                    let totalPrice = 0
+                    let totalLength = 0
+                    for (let i = 0; i < listPr.length; i++) {
+                        if (listPr[i].date.indexOf(date) !== -1) {
+                            totalPrice += listPr[i].totalPrice
+                            totalLength += listPr[i].totalLength
+                            listContent.push(...listPr[i].listPr)
+                        }
+                    }
+                    for (let i = 0; i < listContent.length - 1; i++) {
+                        for (let j = i + 1; j < listContent.length; j++) {
+                            if (listContent[i].name === listContent[j].name) {
+                                listContent[i].length += listContent[j].length
+                                listContent[i].price = parseInt(listContent[i].price) + parseInt(listContent[j].price)
+                                listContent.splice(j, 1)
+                            }
+                        }
+                    }
+                    const info = document.querySelector('.admin-content-1-Statistic>div')
+                    let html = `
+                    <h3>Thống kê tháng ${month}</h3>
+                    <p>Tổng doanh thu: ${formatPrice(totalPrice, 'đ')}</p>
+                    <p>Tổng sản phẩm bán được: ${totalLength}</p>
+                    <ul>
+                `
+                    for (let i = 0; i < listContent.length; i++) {
+                        html += `
+                        <li>
+                            <img src="${listContent[i].image}" alt="hinh"/>
+                            <h4>
+                                ${listContent[i].name}
+                            </h4>
+                            <p>
+                                ${formatPrice(listContent[i].price, 'đ')}    
+                            </p>
+                            <span>${listContent[i].length}</span>
+                        </li>
+                    `
+                    }
+                    html += `<ul>`
+                    info.innerHTML = html
+                }
+                else {
+                    const info = document.querySelector('.admin-content-1-Statistic>div')
+                    const html = `
+                        <p>Vui lòng nhập dữ liệu</p>
+                    `
+                    info.innerHTML = html
+                }
+            }
+        }
+
+        function formatPrice(n, currency) {
+            const nFormat = new Intl.NumberFormat();
+            return nFormat.format(n) + ' ' + currency;
+        }
+
+        function showModal(callback, text) {
+            const modal = document.querySelector('.admin-modal')
+            const modalContent = document.querySelector('.admin-modal-content')
+            modalContent.innerHTML = `<p>${text}</p>
+                <div>
+                    <button>Hủy</button>
+                    <button>Đồng ý</button>
+                </div>
+            `
+            const btn = document.querySelectorAll('.admin-modal-content>div>button')
+            btn[0].onclick = (e) => {
+                closeModal()
+            }
+            btn[1].onclick = (e) => {
+                callback()
+                closeModal()
+            }
+            modal.style.display = 'flex'
+        }
+
+        function closeModal() {
+            const modal = document.querySelector('.admin-modal')
+            modal.style.display = 'none'
+        }
+
+        // Toast
+        function showSuccessToast(text) {
+            toastContent.innerHTML = `<div  class="toast-content"><i style="color: #30d158;" class="fa-solid fa-circle-check"></i><p>${text}</p></div>`
+            setTimeout(() => {
+                toastContent.classList.remove('show')
+            }, 3000)
+            toastContent.classList.add('show')
+        }
+
+        function showErrorToast(text) {
+            toastContent.innerHTML = `<div  class="toast-content"><i style="color: red;" class="fa-solid fa-circle-xmark"></i><p>${text}</p></div>`
+            setTimeout(() => {
+                toastContent.classList.remove('show')
+            }, 3000)
+            toastContent.classList.add('show')
+        }
+
+        const toastContent = document.getElementById('admin-toast')
+
+    </script>
+</body>
+
+</html>
